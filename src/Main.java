@@ -3,6 +3,9 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        final byte MONTHS_IN_YEAR = 12;
+        final byte PERCENT = 100;
+
         Scanner scanner = new Scanner(System.in);
 
         //Principal
@@ -14,26 +17,23 @@ public class Main {
         double annualInterestRate = scanner.nextDouble();
 
         //Monthly Interest Rate
-        double monthlyInterestRate = (annualInterestRate / 100 ) / 12;
+        double monthlyInterestRate = annualInterestRate / PERCENT / MONTHS_IN_YEAR;
 
         //Period
         System.out.print("Period (Years): ");
-        byte period = scanner.nextByte();
+        byte years = scanner.nextByte();
 
         // Number of payments
-        int monthlyPayments = period * 12;
+        int numberOfMonthlyPayments = years * MONTHS_IN_YEAR;
 
         // Calculate monthly payment
-        double monthlyPaymentAmount = principal *
-                (
-                        (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, monthlyPayments))
-                                /
-                                (Math.pow(1 + monthlyInterestRate, monthlyPayments) - 1)
-                );
+        double monthlyPaymentAmount = principal
+                * (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfMonthlyPayments))
+                / (Math.pow(1 + monthlyInterestRate, numberOfMonthlyPayments) - 1);
 
         // Format it as a currency
-        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        String monthlyPaymentAmountFormatted = NumberFormat.getCurrencyInstance().format(monthlyPaymentAmount);
         // Print the result
-        System.out.println(formatter.format(monthlyPaymentAmount));
+        System.out.println(monthlyPaymentAmountFormatted);
     }
 }
